@@ -24,7 +24,7 @@ export class UsersService {
         user.email = email.toLowerCase().trim();
         user.salt = await bcrypt.genSalt();
         user.password = await bcrypt.hash(password, user.salt);
-        user.date = Date.now();
+        user.createdAt = Date.now();
 
         try {
             await user.save();
