@@ -94,9 +94,21 @@ export class UsersService {
         user.guardAuthor(username);
 
         const options = { new: true };
+        const update = {};
+
+        for (const [key, value] of Object.entries(editUserDto)) {
+            if (value === '$delete') {
+                const deleteField = {};
+                deleteField[key] = '';
+                // TODO: make it so multiple fields can be deleted at the same time
+                update['$unset'] = deleteField;
+            } else {
+                update[key] = value;
+            }
+        }
 
         try {
-            const user = await Users.findOneAndUpdate({ username }, editUserDto, options);
+            const user = await Users.findOneAndUpdate({ username }, update, options);
             user.hideSensitiveInfo();
             return user;
         } catch (error) {
