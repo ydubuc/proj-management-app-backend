@@ -14,6 +14,8 @@ export class Project {
 
     @prop({
         required: false,
+        minlength: 4,
+        maxlength: 512,
     })
     description?: string;
 
@@ -23,9 +25,9 @@ export class Project {
     owner: string;
 
     @prop({
-        required: false,
+        required: true,
     })
-    members?: string[];
+    members: string[];
 
     @prop({
         required: true,
