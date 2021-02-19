@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUrl, Length, ValidateIf } from 'class-validator';
+import { IsOptional, IsString, IsUrl, Length, ValidateIf } from 'class-validator';
 
 export class EditUserDto {
     @IsOptional()
@@ -6,9 +6,8 @@ export class EditUserDto {
     @Length(4, 30)
     readonly displayName: string;
 
-    @ValidateIf((obj) => obj.avatarUrl !== '$delete')
     @IsOptional()
-    @IsNotEmpty()
+    @ValidateIf((obj) => obj.avatarUrl !== '$delete')
     @IsUrl()
     readonly avatarUrl: string;
 }

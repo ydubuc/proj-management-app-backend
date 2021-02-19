@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateProjectDto {
     @IsNotEmpty()
@@ -6,4 +6,10 @@ export class CreateProjectDto {
     @MinLength(4)
     @MaxLength(128)
     readonly name: string;
+
+    @IsOptional()
+    @IsString()
+    @MinLength(4)
+    @MaxLength(512)
+    readonly description?: string;
 }
