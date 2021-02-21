@@ -1,6 +1,7 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { User } from '../users/models/user.model';
 import { CreateProjectDto } from './dtos/create-project.dto';
+import { EditProjectDto } from './dtos/edit-project.dto';
 import { GetProjectsFilterDto } from './dtos/get-projects-filter.dto';
 import { Project, Projects } from './models/project.model';
 
@@ -30,14 +31,12 @@ export class ProjectsService {
         const { id, name } = getProjectsFilterDto;
         const query = {};
 
-        query['members'] = {
-            $in: user.getId(),
-        };
+        query['members'] = { $in: user.getId() };
         if (id) {
             query['_id'] = id;
         }
         if (name) {
-            query['name'] = name;
+            query['name'] = { $regex: `.*${name}.*` };
         }
 
         try {
@@ -46,6 +45,32 @@ export class ProjectsService {
         } catch (error) {
             console.log(error);
             throw new InternalServerErrorException('An error occured while getting your projects.');
+        }
+    }
+
+    async editProject(user: User, id: string, editProjectDto: EditProjectDto): Promise<Project> {
+        const query = {};
+        query['_id'] = id;
+        query['members'] = { $in: user.getId() };
+
+        const updates = {};
+        const deletes = {};
+        const options = { new: true };
+
+        for (const [key, value] of Object.entries(editProjectDto)) {
+            if (value === '$delete') {
+                deletes[key] = '';
+                updates['$unset'] = deletes;
+            } else {
+                updates[key] = value;
+            }
+        }
+
+        try {
+            const project = await Projects.findOneAndUpdate(query, updates, options);
+            return project;
+        } catch (error) {
+            throw new NotFoundException('Project not found or not authorized.');
         }
     }
 }

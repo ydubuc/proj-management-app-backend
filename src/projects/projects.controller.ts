@@ -1,8 +1,19 @@
-import { Body, Controller, Get, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Patch,
+    Post,
+    Query,
+    UseGuards,
+    ValidationPipe,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../users/decorators/get-user.decorator';
 import { User } from '../users/models/user.model';
 import { CreateProjectDto } from './dtos/create-project.dto';
+import { EditProjectDto } from './dtos/edit-project.dto';
 import { GetProjectsFilterDto } from './dtos/get-projects-filter.dto';
 import { Project } from './models/project.model';
 import { ProjectsService } from './projects.service';
@@ -23,8 +34,17 @@ export class ProjectsController {
     @Get()
     async getProjects(
         @GetUser() user: User,
-        @Body(ValidationPipe) getProjectsFilterDto: GetProjectsFilterDto,
+        @Query(ValidationPipe) getProjectsFilterDto: GetProjectsFilterDto,
     ): Promise<Project[]> {
         return this.projectsService.getProjects(user, getProjectsFilterDto);
+    }
+
+    @Patch('/:id')
+    async editProject(
+        @GetUser() user: User,
+        @Param('id') id: string,
+        @Body(ValidationPipe) editProjectDto: EditProjectDto,
+    ): Promise<Project> {
+        return this.projectsService.editProject(user, id, editProjectDto);
     }
 }

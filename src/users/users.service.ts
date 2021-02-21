@@ -93,22 +93,21 @@ export class UsersService {
     async editUser(user: User, username: string, editUserDto: EditUserDto): Promise<User> {
         user.guardAuthor(username);
 
+        const updates = {};
+        const deletes = {};
         const options = { new: true };
-        const update = {};
 
         for (const [key, value] of Object.entries(editUserDto)) {
             if (value === '$delete') {
-                const deleteField = {};
-                deleteField[key] = '';
-                // TODO: make it so multiple fields can be deleted at the same time
-                update['$unset'] = deleteField;
+                deletes[key] = '';
+                updates['$unset'] = deletes;
             } else {
-                update[key] = value;
+                updates[key] = value;
             }
         }
 
         try {
-            const user = await Users.findOneAndUpdate({ username }, update, options);
+            const user = await Users.findOneAndUpdate({ username }, updates, options);
             user.hideSensitiveInfo();
             return user;
         } catch (error) {
