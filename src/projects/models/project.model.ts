@@ -1,4 +1,6 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
+import { RequirementModel } from './requirement.model';
+import { RiskModel } from './risk.model';
 
 export class Project {
     getId(): string {
@@ -22,12 +24,22 @@ export class Project {
     @prop({
         required: true,
     })
-    owner: string;
+    owner: string; // TODO: change to MemberModel
 
     @prop({
         required: true,
     })
-    members: string[];
+    members: string[]; // TODO: change to MemberModel
+
+    @prop({
+        required: false,
+    })
+    risks?: RiskModel[];
+
+    @prop({
+        required: false,
+    })
+    requirements?: RequirementModel[];
 
     @prop({
         required: true,

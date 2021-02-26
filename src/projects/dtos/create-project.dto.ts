@@ -9,4 +9,8 @@ export class CreateProjectDto {
     @IsString()
     @Length(4, 512)
     readonly description?: string;
+
+    // optional project owner
+
+    // maybe optional members
 }
