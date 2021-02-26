@@ -69,4 +69,4 @@ export class User {
     }
 }
 
-export const Users = getModelForClass(User);
+export const UserModel = getModelForClass(User);

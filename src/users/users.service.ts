@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { AuthCredentialsDto } from '../auth/dtos/auth-credentials.dto';
 import { EditUserDto } from './dtos/edit-user.dto';
-import { User, Users } from './models/user.model';
+import { User, UserModel } from './models/user.model';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UsersService {
             throw new UnauthorizedException('Missing credentials.');
         }
 
-        const user = new Users();
+        const user = new UserModel();
         user.username = username.toLowerCase().trim();
         user.displayName = username;
         user.email = email.toLowerCase().trim();
@@ -41,7 +41,7 @@ export class UsersService {
 
     async getUserByIdWithSensitiveInfo(id: string): Promise<User> {
         try {
-            const user = await Users.findById(id);
+            const user = await UserModel.findById(id);
             return user;
         } catch (error) {
             return null;
@@ -58,7 +58,7 @@ export class UsersService {
 
     async getUserByUsernameWithSensitiveInfo(username: string): Promise<User> {
         try {
-            const user = await Users.findOne({ username });
+            const user = await UserModel.findOne({ username });
             return user;
         } catch (error) {
             return null;
@@ -75,7 +75,7 @@ export class UsersService {
 
     async getUserByEmailWithSensitiveInfo(email: string): Promise<User> {
         try {
-            const user = await Users.findOne({ email });
+            const user = await UserModel.findOne({ email });
             return user;
         } catch (error) {
             return null;
@@ -107,7 +107,7 @@ export class UsersService {
         }
 
         try {
-            const user = await Users.findOneAndUpdate({ username }, updates, options);
+            const user = await UserModel.findOneAndUpdate({ username }, updates, options);
             user.hideSensitiveInfo();
             return user;
         } catch (error) {

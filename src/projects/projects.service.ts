@@ -3,13 +3,13 @@ import { User } from '../users/models/user.model';
 import { CreateProjectDto } from './dtos/create-project.dto';
 import { EditProjectDto } from './dtos/edit-project.dto';
 import { GetProjectsFilterDto } from './dtos/get-projects-filter.dto';
-import { Project, Projects } from './models/project.model';
+import { Project, ProjectModel } from './models/project.model';
 
 @Injectable()
 export class ProjectsService {
     async createProject(user: User, createProjectDto: CreateProjectDto): Promise<Project> {
         const { name, description } = createProjectDto;
-        const project = new Projects();
+        const project = new ProjectModel();
         project.name = name;
         if (description) {
             project.description = description;
@@ -40,7 +40,7 @@ export class ProjectsService {
         }
 
         try {
-            const projects = await Projects.find(query);
+            const projects = await ProjectModel.find(query);
             return projects;
         } catch (error) {
             console.log(error);
@@ -67,7 +67,7 @@ export class ProjectsService {
         }
 
         try {
-            const project = await Projects.findOneAndUpdate(query, updates, options);
+            const project = await ProjectModel.findOneAndUpdate(query, updates, options);
             return project;
         } catch (error) {
             throw new NotFoundException('Project not found or not authorized.');

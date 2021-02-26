@@ -35,4 +35,4 @@ export class Project {
     createdAt: number;
 }
 
-export const Projects = getModelForClass(Project);
+export const ProjectModel = getModelForClass(Project);
