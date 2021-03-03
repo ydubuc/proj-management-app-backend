@@ -24,5 +24,8 @@ export class RequirementModel {
     })
     statuses?: RequirementStatusModel[];
 
-    // add due date
+    @prop({
+        required: true,
+    })
+    dueDate: number;
 }

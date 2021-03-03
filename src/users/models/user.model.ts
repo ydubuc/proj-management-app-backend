@@ -1,6 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { getModelForClass, prop } from '@typegoose/typegoose';
 import * as bcrypt from 'bcryptjs';
+import { ProjectMember } from '../../projects/models/project-member.model';
 
 export class User {
     getId(): string {
@@ -66,6 +67,17 @@ export class User {
         if (username !== this.username) {
             throw new UnauthorizedException();
         }
+    }
+
+    toProjectMember(): ProjectMember {
+        const member = new ProjectMember();
+        member.uid = this.getId();
+        member.username = this.username;
+        member.displayName = this.displayName;
+        if (this.avatarUrl) {
+            member.avatarUrl = this.avatarUrl;
+        }
+        return member;
     }
 }
 

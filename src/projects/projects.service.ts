@@ -15,7 +15,7 @@ export class ProjectsService {
             project.description = description;
         }
         project.owner = user.getId();
-        project.members = [user.getId()];
+        project.members = [user.toProjectMember()];
         project.createdAt = Date.now();
 
         try {
@@ -31,6 +31,7 @@ export class ProjectsService {
         const { id, name } = getProjectsFilterDto;
         const query = {};
 
+        // TODO: find a way to query sub documents
         query['members'] = { $in: user.getId() };
         if (id) {
             query['_id'] = id;
@@ -51,6 +52,7 @@ export class ProjectsService {
     async editProject(user: User, id: string, editProjectDto: EditProjectDto): Promise<Project> {
         const query = {};
         query['_id'] = id;
+        // TODO: find a way to query sub documents
         query['members'] = { $in: user.getId() };
 
         const updates = {};
