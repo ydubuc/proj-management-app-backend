@@ -8,12 +8,11 @@ export class Project {
         return this['_id'];
     }
 
-    // TODO:
-    // @prop({
-    //     required: true,
-    //     unique: true,
-    // })
-    // pid: string;
+    @prop({
+        required: true,
+        unique: true,
+    })
+    pid: string;
 
     @prop({
         required: true,

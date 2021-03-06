@@ -4,7 +4,7 @@ export class RequirementStatusModel {
     @prop({
         required: true,
     })
-    phase: string; // phase
+    phase: string;
 
     @prop({
         required: true,

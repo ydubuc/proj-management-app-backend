@@ -1,15 +1,19 @@
-import { IsNotIn, IsOptional, IsString, IsUrl, Length, ValidateIf } from 'class-validator';
-import { RESERVED_KEYWORDS } from '../../resources/constants';
+import { IsArray, IsIn, IsOptional, IsString, IsUrl, Length } from 'class-validator';
+
+const DELETABLE_FIELDS = ['avatarUrl'];
 
 export class EditUserDto {
     @IsOptional()
-    @IsNotIn(RESERVED_KEYWORDS)
     @IsString()
     @Length(4, 30)
-    readonly displayName: string;
+    readonly displayName?: string;
 
     @IsOptional()
-    @ValidateIf((obj) => !RESERVED_KEYWORDS.includes(obj.avatarUrl))
     @IsUrl()
-    readonly avatarUrl: string;
+    readonly avatarUrl?: string;
+
+    @IsOptional()
+    @IsArray()
+    @IsIn(DELETABLE_FIELDS, { each: true })
+    readonly deleteFields?: string[];
 }

@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Delete,
     Get,
     Param,
     Patch,
@@ -46,5 +47,10 @@ export class ProjectsController {
         @Body(ValidationPipe) editProjectDto: EditProjectDto,
     ): Promise<Project> {
         return this.projectsService.editProject(user, id, editProjectDto);
+    }
+
+    @Delete('/:id')
+    async deleteProject(@GetUser() user: User, @Param('id') id: string): Promise<void> {
+        return this.projectsService.deleteProject(user, id);
     }
 }

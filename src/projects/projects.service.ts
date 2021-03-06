@@ -4,12 +4,14 @@ import { CreateProjectDto } from './dtos/create-project.dto';
 import { EditProjectDto } from './dtos/edit-project.dto';
 import { GetProjectsFilterDto } from './dtos/get-projects-filter.dto';
 import { Project, ProjectModel } from './models/project.model';
+import * as nanoid from 'nanoid';
 
 @Injectable()
 export class ProjectsService {
     async createProject(user: User, createProjectDto: CreateProjectDto): Promise<Project> {
         const { name, description } = createProjectDto;
         const project = new ProjectModel();
+        project.pid = nanoid.nanoid(6);
         project.name = name;
         if (description) {
             project.description = description;
@@ -28,13 +30,15 @@ export class ProjectsService {
     }
 
     async getProjects(user: User, getProjectsFilterDto: GetProjectsFilterDto): Promise<Project[]> {
-        const { id, name } = getProjectsFilterDto;
+        const { id, pid, name } = getProjectsFilterDto;
         const query = {};
 
-        // TODO: find a way to query sub documents
-        query['members'] = { $in: user.getId() };
+        query['members'] = { $in: user.toProjectMember() };
         if (id) {
             query['_id'] = id;
+        }
+        if (pid) {
+            query['pid'] = pid;
         }
         if (name) {
             query['name'] = { $regex: `.*${name}.*` };
@@ -52,19 +56,20 @@ export class ProjectsService {
     async editProject(user: User, id: string, editProjectDto: EditProjectDto): Promise<Project> {
         const query = {};
         query['_id'] = id;
-        // TODO: find a way to query sub documents
-        query['members'] = { $in: user.getId() };
+        query['members'] = { $in: user.toProjectMember() };
 
         const updates = {};
-        const deletes = {};
         const options = { new: true };
 
         for (const [key, value] of Object.entries(editProjectDto)) {
-            if (value === '$delete') {
-                deletes[key] = '';
-                updates['$unset'] = deletes;
-            } else {
+            if (key !== 'deleteFields') {
                 updates[key] = value;
+            } else {
+                const deletes = {};
+                for (const field of value) {
+                    deletes[field] = '';
+                }
+                updates['$unset'] = deletes;
             }
         }
 
@@ -74,5 +79,9 @@ export class ProjectsService {
         } catch (error) {
             throw new NotFoundException('Project not found or not authorized.');
         }
+    }
+
+    async deleteProject(user: User, id: string): Promise<void> {
+        return null;
     }
 }
