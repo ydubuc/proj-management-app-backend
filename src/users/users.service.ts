@@ -51,17 +51,14 @@ export class UsersService {
     }
 
     async getUsersWithSensitiveInfo(getUsersFilterDto: GetUsersFilterDto): Promise<User[]> {
-        const { id, username, displayName } = getUsersFilterDto;
+        const { id, name } = getUsersFilterDto;
         const query = {};
 
         if (id) {
             query['_id'] = id;
         }
-        if (username) {
-            query['username'] = { $regex: `.*${[username]}.*` };
-        }
-        if (displayName) {
-            query['displayName'] = { $regex: `.*${[displayName]}.*` };
+        if (name) {
+            query['displayName'] = { $regex: `.*${[name]}.*` };
         }
         if (!Object.keys(query).length) {
             throw new NotFoundException('Query parameters too broad.');

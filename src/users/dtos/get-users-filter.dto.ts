@@ -9,10 +9,5 @@ export class GetUsersFilterDto {
     @IsOptional()
     @IsNotEmpty()
     @IsString()
-    readonly username?: string;
-
-    @IsOptional()
-    @IsNotEmpty()
-    @IsString()
-    readonly displayName?: string;
+    readonly name?: string;
 }
