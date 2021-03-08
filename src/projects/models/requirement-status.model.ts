@@ -1,13 +1,20 @@
 import { prop } from '@typegoose/typegoose';
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { RequirementPhase } from '../enums/requirement-phase.enum';
 
 export class RequirementStatusModel {
+    @IsNotEmpty()
+    @IsEnum(RequirementPhase)
     @prop({
         required: true,
+        enum: RequirementPhase,
     })
-    phase: string;
+    phase: RequirementPhase;
 
+    @IsNotEmpty()
+    @IsNumber()
     @prop({
         required: true,
     })
-    time: number;
+    expendedHours: number;
 }

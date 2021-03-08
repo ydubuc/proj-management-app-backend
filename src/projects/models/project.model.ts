@@ -41,11 +41,13 @@ export class Project {
 
     @prop({
         required: false,
+        _id: false,
     })
     risks?: RiskModel[];
 
     @prop({
         required: false,
+        _id: false,
     })
     requirements?: RequirementModel[];
 

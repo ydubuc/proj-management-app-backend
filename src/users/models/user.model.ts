@@ -71,7 +71,7 @@ export class User {
 
     toProjectMember(): ProjectMember {
         const member = new ProjectMember();
-        member.uid = this.getId();
+        member.uid = this.getId().toString();
         member.username = this.username;
         member.displayName = this.displayName;
         if (this.avatarUrl) {

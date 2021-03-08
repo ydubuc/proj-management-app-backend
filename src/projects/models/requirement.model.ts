@@ -1,6 +1,8 @@
 import { prop } from '@typegoose/typegoose';
+import { Type } from 'class-transformer';
 import {
     IsArray,
+    IsEmpty,
     IsEnum,
     IsNotEmpty,
     IsNumber,
@@ -13,19 +15,22 @@ import { RequirementType } from '../enums/requirement-type.enum';
 import { RequirementStatusModel } from './requirement-status.model';
 
 export class RequirementModel {
-    getId(): string {
-        return this['_id'];
-    }
-
     @IsOptional()
+    @IsString()
+    @prop({
+        required: true,
+    })
+    reqId: string;
+
+    @IsNotEmpty()
     @IsString()
     @Length(4, 512)
     @prop({
-        required: false,
+        required: true,
         minlength: 4,
         maxlength: 512,
     })
-    description?: string;
+    description: string;
 
     @IsNotEmpty()
     @IsEnum(RequirementType)
@@ -38,6 +43,7 @@ export class RequirementModel {
     @IsOptional()
     @IsArray()
     @ValidateNested({ each: true })
+    @Type(() => RequirementStatusModel)
     @prop({
         required: false,
     })
@@ -48,5 +54,5 @@ export class RequirementModel {
     @prop({
         required: true,
     })
-    dueDate: number;
+    dueAt: number;
 }

@@ -62,14 +62,30 @@ export class ProjectsService {
         const options = { new: true };
 
         for (const [key, value] of Object.entries(editProjectDto)) {
-            if (key !== 'deleteFields') {
-                updates[key] = value;
-            } else {
+            if (key === 'risks') {
+                const risks = editProjectDto[key];
+                for (const risk of risks) {
+                    if (!risk.riskId) {
+                        risk.riskId = nanoid.nanoid(6);
+                    }
+                }
+                updates[key] = risks;
+            } else if (key === 'requirements') {
+                const requirements = editProjectDto[key];
+                for (const req of requirements) {
+                    if (!req.reqId) {
+                        req.reqId = nanoid.nanoid(6);
+                    }
+                }
+                updates[key] = requirements;
+            } else if (key === 'deleteFields') {
                 const deletes = {};
                 for (const field of value) {
                     deletes[field] = '';
                 }
                 updates['$unset'] = deletes;
+            } else {
+                updates[key] = value;
             }
         }
 

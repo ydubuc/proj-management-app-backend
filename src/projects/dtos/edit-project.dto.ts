@@ -41,14 +41,14 @@ export class EditProjectDto {
     @ArrayMinSize(1)
     @ValidateNested({ each: true })
     @Type(() => RiskModel)
-    readonly risks?: RiskModel[];
+    risks?: RiskModel[];
 
     @IsOptional()
     @IsArray()
     @ArrayMinSize(1)
     @ValidateNested({ each: true })
     @Type(() => RequirementModel)
-    readonly requirements?: RequirementModel[];
+    requirements?: RequirementModel[];
 
     @IsOptional()
     @IsArray()

@@ -3,17 +3,14 @@ import { IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class
 import { RiskStatus } from '../enums/risk-status.enum';
 
 export class RiskModel {
-    getId(): string {
-        return this['_id'];
-    }
-
-    @IsEmpty()
+    @IsOptional()
+    @IsString()
     @prop({
         required: true,
     })
-    pid: string;
+    riskId: string;
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     @Length(4, 512)
     @prop({
@@ -21,7 +18,7 @@ export class RiskModel {
         minlength: 4,
         maxlength: 512,
     })
-    description?: string;
+    description: string;
 
     @IsNotEmpty()
     @IsEnum(RiskStatus)
