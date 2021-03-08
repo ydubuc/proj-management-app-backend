@@ -61,7 +61,7 @@ export class UsersService {
             query['username'] = { $regex: `.*${[username]}.*` };
         }
         if (displayName) {
-            query['nickname'] = { $regex: `.*${[displayName]}.*` };
+            query['displayName'] = { $regex: `.*${[displayName]}.*` };
         }
         if (!Object.keys(query).length) {
             throw new NotFoundException('Query parameters too broad.');
