@@ -1,5 +1,5 @@
 import { prop } from '@typegoose/typegoose';
-import { IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 import { RiskStatus } from '../enums/risk-status.enum';
 
 export class RiskModel {

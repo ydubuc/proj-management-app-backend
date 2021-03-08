@@ -2,7 +2,6 @@ import { prop } from '@typegoose/typegoose';
 import { Type } from 'class-transformer';
 import {
     IsArray,
-    IsEmpty,
     IsEnum,
     IsNotEmpty,
     IsNumber,

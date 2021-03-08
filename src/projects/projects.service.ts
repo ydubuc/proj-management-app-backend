@@ -57,6 +57,9 @@ export class ProjectsService {
         const query = {};
         query['_id'] = id;
         query['members'] = { $in: user.toProjectMember() };
+        if (editProjectDto.owner) {
+            query['owner'] = user.getId();
+        }
 
         const updates = {};
         const options = { new: true };
@@ -98,6 +101,14 @@ export class ProjectsService {
     }
 
     async deleteProject(user: User, id: string): Promise<void> {
-        return null;
+        const query = {};
+        query['_id'] = id;
+        query['owner'] = user.getId();
+
+        try {
+            await ProjectModel.findOneAndDelete(query);
+        } catch (error) {
+            throw error;
+        }
     }
 }

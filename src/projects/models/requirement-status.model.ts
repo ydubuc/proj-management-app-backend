@@ -1,5 +1,5 @@
 import { prop } from '@typegoose/typegoose';
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 import { RequirementPhase } from '../enums/requirement-phase.enum';
 
 export class RequirementStatusModel {
