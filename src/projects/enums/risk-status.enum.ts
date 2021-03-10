@@ -1,5 +1,5 @@
 export enum RiskStatus {
-    ONE = 'in-review',
-    TWO = 'identified',
-    THREE = 'mitigated',
+    IN_REVIEW = 'In Review',
+    IDENTIFIED = 'Identified',
+    MITIGATED = 'Mitigated',
 }
