@@ -14,7 +14,6 @@ export class ProjectMember {
     @Length(4, 24)
     @prop({
         required: true,
-        unique: true,
         minlength: 4,
         maxlength: 24,
     })

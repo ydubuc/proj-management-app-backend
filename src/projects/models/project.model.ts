@@ -36,18 +36,21 @@ export class Project {
     @prop({
         required: true,
         _id: false,
+        type: ProjectMember,
     })
     members: ProjectMember[];
 
     @prop({
         required: false,
         _id: false,
+        type: RiskModel,
     })
     risks?: RiskModel[];
 
     @prop({
         required: false,
         _id: false,
+        type: RequirementModel,
     })
     requirements?: RequirementModel[];
 

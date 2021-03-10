@@ -45,6 +45,7 @@ export class RequirementModel {
     @Type(() => RequirementStatusModel)
     @prop({
         required: false,
+        type: RequirementStatusModel,
     })
     statuses?: RequirementStatusModel[];
 
